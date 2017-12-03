@@ -1,2 +1,2 @@
-cd C:\Users\Braya\Desktop\src\tls-server
+cd C:\Program Files\ByrdOS-master
 npm run start

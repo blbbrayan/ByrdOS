@@ -29,6 +29,3 @@ Desktop.ini
 # Logs
 logs
 *.log
-
-# Deps
-node_modules
