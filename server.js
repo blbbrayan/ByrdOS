@@ -54,6 +54,22 @@ routes.forEach(route => {
     });
 });
 
+//image loader
+app.route('/img').get((req, res) => {
+    const params = req.query;
+    res.sendFile(params.path.replace(/\//g, '\\'));
+});
+
+//message loader
+const chatRoute = routes.find(route=>route.path==='chat');
+app.route('/msg').get((req, res) => {
+    const params = req.query;
+    data.chat = data.chat || [];
+    data.chat.push(params.msg);
+    data = data; // todo:data
+    res.send(chatRoute.render(data));
+});
+
 //start Server
 const server = app.listen(80, ()=>console.log(`Listening to port ${server.address().port}`));
 
