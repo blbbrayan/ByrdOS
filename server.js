@@ -18,10 +18,10 @@ const config = [
     expressValidator()
 ].forEach(option=>app.use(option));
 
-/*------------------*/
-/*------ Data ------*/
-/**/let data = Object.assign({}, require('./config'));/**/
-/*------------------*/
+
+//setup data
+
+let data = Object.assign({}, require('./config'));
 
 const drivelist = require('drivelist');
 
@@ -29,11 +29,6 @@ drivelist.list((error, drives) => {
     if (error) throw error;
     data.drives = drives;
 });
-
-
-
-/*     End Data     */
-/*------------------*/
 
 //loads all route files in route folder
 let routes = [], cache = [];
@@ -60,16 +55,26 @@ app.route('/img').get((req, res) => {
     res.sendFile(params.path.replace(/\//g, '\\'));
 });
 
-//message loader
+//style loader
+app.route('/style').get((req, res) => {
+    const params = req.query;
+    res.sendFile(`${__dirname}/styles/${params.name}.css`);
+});
+
+//script loader
+app.route('/script').get((req, res) => {
+    const params = req.query;
+    res.sendFile(`${__dirname}/scripts/${params.name}.js`);
+});
+
+//message loader todo: redo all of this
 const chatRoute = routes.find(route=>route.path==='chat');
 app.route('/msg').get((req, res) => {
     const params = req.query;
     data.chat = data.chat || [];
     data.chat.push(params.msg);
-    data = data; // todo:data
     res.send(chatRoute.render(data));
 });
 
 //start Server
 const server = app.listen(80, ()=>console.log(`Listening to port ${server.address().port}`));
-
