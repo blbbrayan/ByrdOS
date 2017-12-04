@@ -21,7 +21,7 @@ module.exports = {
             let images = '';
             let files = '';
             fs.readdirSync(path).forEach(name=> {
-                const isDir = fs.lstatSync(path + '\\' + name).isDirectory();
+                const isDir = fs.lstatSync(path + '/' + name).isDirectory();
                 const anchor = `<a class="col s12 btn grey" href="/files?path=${path + '/' + name}"><i class="fa fa-${isDir?'folder':'file'}"></i> ${name}</a>`;
                 if(isDir)
                     folders += anchor;
@@ -33,7 +33,7 @@ module.exports = {
                 list = folders + images + files;
             });
         }
-        else return {file: path};
+        else return {file: path.replace(/\//g, '\\')};
 
         path.split('/').forEach((breadcrumb, i)=> {
             if(!(i === 0 && breadcrumb === ''))
